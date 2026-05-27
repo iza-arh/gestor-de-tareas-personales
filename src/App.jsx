@@ -1,20 +1,22 @@
 import './App.css'
 import Sidebar from './components/Sidebar';
 import MetasForm from './components/MetasForm';
+import TasksPage from './pages/TasksPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-[#f5efe9] text-[#211916]">
         {/* El sidebar */}
         <Sidebar />
 
         {/* Contenido principal */}
-        <main className="lg:pl-64 p-8 pt-20 lg:pt-8 flex flex-col items-center">
-          <h1 className="text-3xl font-bold text-center">Bienvenidos</h1>
+        <main className="p-6 pt-24 lg:ml-72 lg:px-12 lg:py-10">
           <Routes>
             {/* El path "/" suele ser la pantalla de inicio */}
+            <Route path="/" element={<TasksPage />} />
+            <Route path="/tareas" element={<TasksPage />} />
             <Route path="/metas-form-agregar-meta" element={<MetasForm />} />
           </Routes>
         </main>
