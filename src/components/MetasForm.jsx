@@ -19,6 +19,7 @@ function MetasForm() {
    const [endDate, setEndDate] = useState(null);
    const isEndInvalid = endDate != null && endDate.compare(currentDate) < 0;
 
+   const existingData = JSON.parse(localStorage.getItem('myFormData')) || [];
 
    const onSubmit = (e) => {
       e.preventDefault();
@@ -26,7 +27,18 @@ function MetasForm() {
       const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData.entries());
 
-      console.log("Form Data Submitted:", data);
+      let newEntry = {
+         id: Math.random().toString(36).substring(2, 11),
+         titulo: data.titulo,
+         descripcion: data.descripcion,
+         estado: data.estado,
+         fecha_de_inicio: data.fecha_de_inicio,
+         fecha_de_finalizacion: data.fecha_de_finalizacion
+      };
+
+      existingData.push(newEntry);
+
+      localStorage.setItem('myFormData', JSON.stringify(existingData));
    };
 
    return (
@@ -121,7 +133,7 @@ function MetasForm() {
                className="w-3/5 mx-auto"
                isInvalid={isStartInvalid}
                minValue={currentDate}
-               name="fecha-de-inicio"
+               name="fecha_de_inicio"
                value={startDate}
                onChange={setStartDate}
             >
@@ -172,7 +184,7 @@ function MetasForm() {
                className="w-3/5 mx-auto"
                isInvalid={isEndInvalid}
                minValue={currentDate}
-               name="fecha-de-finalizacion"
+               name="fecha_de_finalizacion"
                value={endDate}
                onChange={setEndDate}
             >
