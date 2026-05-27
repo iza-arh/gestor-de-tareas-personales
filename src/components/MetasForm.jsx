@@ -39,6 +39,11 @@ function MetasForm() {
       existingData.push(newEntry);
 
       localStorage.setItem('myFormData', JSON.stringify(existingData));
+
+      e.target.reset();
+      setValue("");
+      setStartDate(null);
+      setEndDate(null);
    };
 
    return (
@@ -237,7 +242,11 @@ function MetasForm() {
                <Button
                   type="reset"
                   variant="secondary"
-                  onClick={() => setValue("")}>
+                  onClick={() => {
+                     setValue("")
+                     setStartDate(null)
+                     setEndDate(null)
+                  }}>
                   Reset
                </Button>
             </div>
