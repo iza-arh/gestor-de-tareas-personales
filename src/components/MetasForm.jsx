@@ -32,8 +32,8 @@ function MetasForm() {
          titulo: data.titulo,
          descripcion: data.descripcion,
          estado: data.estado,
-         fecha_de_inicio: data.fecha_de_inicio,
-         fecha_de_finalizacion: data.fecha_de_finalizacion
+         fechaDeInicio: data.fecha_de_inicio ? data.fecha_de_inicio.toString() : null,
+         fechaDeFinalizacion: data.fecha_de_finalizacion ? data.fecha_de_finalizacion.toString() : null
       };
 
       existingData.push(newEntry);
