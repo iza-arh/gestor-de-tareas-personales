@@ -8,8 +8,8 @@ import React from "react";
 import { useState } from "react";
 import { getLocalTimeZone, today } from "@internationalized/date";
 
-function MetasForm() {
-   const [value, setValue] = React.useState("");
+function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
+   const [value, setValue] = React.useState(initialData?.descripcion || "");
 
    const currentDate = today(getLocalTimeZone());
 
@@ -27,7 +27,7 @@ function MetasForm() {
       const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData.entries());
 
-      let newEntry = {
+      let formattedData = {
          id: Math.random().toString(36).substring(2, 11),
          titulo: data.titulo,
          descripcion: data.descripcion,
@@ -36,9 +36,7 @@ function MetasForm() {
          fechaDeFinalizacion: data.fecha_de_finalizacion ? data.fecha_de_finalizacion.toString() : null
       };
 
-      existingData.push(newEntry);
-
-      localStorage.setItem('myFormData', JSON.stringify(existingData));
+      onSubmitAction(formattedData);
 
       e.target.reset();
       setValue("");
@@ -48,7 +46,7 @@ function MetasForm() {
 
    return (
       <div>
-         <h1 className="text-center">Meta</h1>
+         <h1 className="text-center">{formTitle}</h1>
          <Form
             className="flex w-96 flex-col gap-4"
             onSubmit={onSubmit}
