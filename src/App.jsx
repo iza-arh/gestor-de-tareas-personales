@@ -1,6 +1,6 @@
 import './App.css'
 import Sidebar from './components/Sidebar';
-import MetasForm from './components/MetasForm';
+import CrearMetaPage from './pages/metas/crearMetaPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
           <h1 className="text-3xl font-bold text-center">Bienvenidos</h1>
           <Routes>
             {/* El path "/" suele ser la pantalla de inicio */}
-            <Route path="/metas-form-agregar-meta" element={<MetasForm />} />
+            <Route path="/metas-form-agregar-meta" element={<CrearMetaPage />} />
           </Routes>
         </main>
       </div>
