@@ -12,3 +12,7 @@ export function saveMetas(meta) {
 
     localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(existingData));
 }
+
+export function getMetas(){
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || []
+}

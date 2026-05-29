@@ -2,6 +2,7 @@ import './App.css'
 import Sidebar from './components/Sidebar';
 import CrearMetaPage from './pages/metas/crearMetaPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ListaDeMetasPage from './pages/metas/ListaDeMetasPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             {/* El path "/" suele ser la pantalla de inicio */}
             <Route path="/metas-form-agregar-meta" element={<CrearMetaPage />} />
+            <Route path="/metas-list" element={<ListaDeMetasPage />} />
           </Routes>
         </main>
       </div>
