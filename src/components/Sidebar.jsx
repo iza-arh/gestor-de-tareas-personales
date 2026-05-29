@@ -7,10 +7,13 @@ export default function Sidebar() {
 
     const navigate = useNavigate();
 
-    const manejarNavegacion = () => {
-        // Aquí podrías validar algo antes de viajar
+    const navegateToCrearMetasPage = () => {
         navigate('/metas-form-agregar-meta');
     };
+
+    const navegateToListaDeMetasPage = () => {
+        navigate('/metas-list');
+    }
 
     return (
         <>
@@ -76,10 +79,10 @@ export default function Sidebar() {
                                     </Button>
                                     <Dropdown.Popover>
                                         <Dropdown.Menu onAction={(key) => console.log(`Selected: ${key}`)}>
-                                            <Dropdown.Item id="new-file" textValue="New file" onClick={manejarNavegacion}>
+                                            <Dropdown.Item id="new-file" textValue="New file" onClick={navegateToCrearMetasPage}>
                                                 <Label>Agregar meta</Label>
                                             </Dropdown.Item>
-                                            <Dropdown.Item id="copy-link" textValue="Copy link">
+                                            <Dropdown.Item id="copy-link" textValue="Copy link" onClick={navegateToListaDeMetasPage}>
                                                 <Label>Ver metas</Label>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
