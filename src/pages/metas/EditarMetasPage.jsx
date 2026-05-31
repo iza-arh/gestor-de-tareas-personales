@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 import { getMeta } from "../../services/metasServices"
 import MetasForm from "../../components/metas/MetasForm"
 
-export default function EditarMetasPage({ idMeta }) {
-
-    let metaToEdit = getMeta(idMeta)
+export default function EditarMetasPage() {
+    const { id } = useParams();
+    let metaToEdit = getMeta(id)
 
     const handleEditarMeta = () => {
     };

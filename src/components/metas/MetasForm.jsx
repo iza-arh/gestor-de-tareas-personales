@@ -6,17 +6,23 @@ import {
 } from "@heroui/react";
 import React from "react";
 import { useState } from "react";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone, today, parseDate } from "@internationalized/date";
 
 function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
    const [value, setValue] = React.useState(initialData?.descripcion || "");
 
+   const [titulo, setTitulo] = React.useState(initialData?.titulo || "");
+
+   const [estado, setEstado] = React.useState(initialData?.estado || null);
+
    const currentDate = today(getLocalTimeZone());
 
-   const [startDate, setStartDate] = useState(null);
+   const [startDate, setStartDate] = useState(
+      initialData?.fechaDeInicio ? parseDate(initialData.fechaDeInicio) : null);
    const isStartInvalid = startDate != null && startDate.compare(currentDate) < 0;
 
-   const [endDate, setEndDate] = useState(null);
+   const [endDate, setEndDate] = useState(
+      initialData?.fechaDeFinalizacion ? parseDate(initialData.fechaDeFinalizacion) : null);
    const isEndInvalid = endDate != null && endDate.compare(currentDate) < 0;
 
    const existingData = JSON.parse(localStorage.getItem('myFormData')) || [];
@@ -42,6 +48,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
       setValue("");
       setStartDate(null);
       setEndDate(null);
+      setTitulo("")
+      setEstado("")
    };
 
    return (
@@ -72,7 +80,11 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                }}
             >
                <Label>Titulo</Label>
-               <Input placeholder="Conseguir trabajo" />
+               <Input
+                  placeholder="Conseguir trabajo"
+                  value={titulo}
+                  onChange={(event) => setTitulo(event.target.value)}
+               />
                <FieldError />
             </TextField>
             <TextField
@@ -107,6 +119,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                   const selectedValue = Array.from(value)[0]?.toString() || "";
                   return !selectedValue.trim() ? "El estado es requerido" : true;
                }}
+               selectedKey={estado}
+               onSelectionChange={(key) => setEstado(key)}
             >
                <Label>Estado</Label>
                <Select.Trigger>

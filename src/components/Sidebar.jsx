@@ -78,7 +78,7 @@ export default function Sidebar() {
                                         Metas
                                     </Button>
                                     <Dropdown.Popover>
-                                        <Dropdown.Menu onAction={(key) => console.log(`Selected: ${key}`)}>
+                                        <Dropdown.Menu>
                                             <Dropdown.Item id="new-file" textValue="New file" onClick={navegateToCrearMetasPage}>
                                                 <Label>Agregar meta</Label>
                                             </Dropdown.Item>

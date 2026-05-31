@@ -25,3 +25,9 @@ export function deleteMeta(idMeta) {
 
     localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(newData));
 }
+
+export function getMeta(idMeta) {
+    const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
+
+    return existingData.find(meta => meta.id === idMeta);
+}
