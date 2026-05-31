@@ -15,6 +15,10 @@ export default function Sidebar() {
         navigate('/metas-list');
     }
 
+    const navegateToCategoriasPage = () => {
+        navigate('/categorias');
+    };
+
     return (
         <>
             {/* --- Encabezado y boton --- */}
@@ -71,7 +75,7 @@ export default function Sidebar() {
 
                     {/* --- Links de navegacion --- */}
                     <nav className="h-full overflow-y-auto p-3">
-                        <ul className="space-y-1">
+                        <ul className="space-y-6">
                             <li className="w-full">
                                 <Dropdown>
                                     <Button aria-label="Menu" variant="ghost" className="w-full">
@@ -85,6 +89,19 @@ export default function Sidebar() {
                                             <Dropdown.Item id="copy-link" textValue="Copy link" onClick={navegateToListaDeMetasPage}>
                                                 <Label>Ver metas</Label>
                                             </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown.Popover>
+                                </Dropdown>
+                                <Dropdown>
+                                    <Button aria-label="Menu" variant="ghost" className="w-full">
+                                        Categorias
+                                    </Button>
+                                    <Dropdown.Popover>
+                                        <Dropdown.Menu onAction={(key) => console.log(`Selected: ${key}`)}>
+                                            <Dropdown.Item id="cat-unico" textValue="Categorias" onClick={navegateToCategoriasPage}>
+                                                <Label>Ingresar Categoria</Label>
+                                            </Dropdown.Item>
+                                            
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>
                                 </Dropdown>
