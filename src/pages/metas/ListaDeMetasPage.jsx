@@ -1,5 +1,5 @@
 import MetasList from "../../components/metas/MetasList"
-import { getMetas } from "../../services/metasServices";
+import { getMetas, deleteMeta } from "../../services/metasServices";
 import { useState, useEffect } from "react";
 
 export default function ListaDeMetasPage() {
@@ -16,7 +16,15 @@ export default function ListaDeMetasPage() {
         }
     }, []);
 
+    function handleDelete(idMeta) {
+        deleteMeta(idMeta)
+        setMetas(getMetas())
+    }
+
     return (
-        <MetasList metasData={metas}></MetasList>
+        <MetasList
+            metasData={metas}
+            deleteMeta={handleDelete}
+        ></MetasList>
     )
 }

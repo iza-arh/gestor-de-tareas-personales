@@ -4,10 +4,13 @@ import {
     TableColumn,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
+    Button
 } from "@heroui/react";
 
-export default function MetasList({metasData = []}) {
+import { deleteMeta, getMetas } from "../../services/metasServices";
+
+export default function MetasList({ metasData = [], deleteMeta }) {
     return (
         <div className="p-6 max-w-4xl mx-auto">
             <h2 className="text-2xl text-center font-bold mb-4">Metas</h2>
@@ -21,6 +24,7 @@ export default function MetasList({metasData = []}) {
                             <th className="px-4 py-3 text-left">Estado</th>
                             <th className="px-4 py-3 text-left">Inicio</th>
                             <th className="px-4 py-3 text-left">Finalizacion</th>
+                            <th className="px-4 py-3 text-left">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +43,9 @@ export default function MetasList({metasData = []}) {
                                     <td className="px-4 py-3">{item.estado}</td>
                                     <td className="px-4 py-3">{item.fechaDeInicio}</td>
                                     <td className="px-4 py-3">{item.fechaDeFinalizacion}</td>
+                                    <td className="px-4 py-3">
+                                        <Button variant="danger" className="py-3" onClick={() => deleteMeta(item.id)}>Eliminar</Button>
+                                    </td>
                                 </tr>
                             ))
                         )}
