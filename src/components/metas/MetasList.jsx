@@ -39,7 +39,7 @@ export default function MetasList({ metasData = [], deleteMeta }) {
                                 <tr key={item.id} className="border-t border-default-200 hover:bg-default-50 transition-colors">
                                     <td className="px-4 py-3 font-mono text-xs text-default-400">{item.id}</td>
                                     <td className="px-4 py-3 font-semibold">{item.titulo}</td>
-                                    <td className="px-4 py-3">{item.descricion ?? "—"}</td>
+                                    <td className="px-4 py-3">{item.descripcion ?? "—"}</td>
                                     <td className="px-4 py-3">{item.estado}</td>
                                     <td className="px-4 py-3">{item.fechaDeInicio}</td>
                                     <td className="px-4 py-3">{item.fechaDeFinalizacion}</td>
