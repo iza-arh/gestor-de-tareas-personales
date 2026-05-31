@@ -13,6 +13,15 @@ export function saveMetas(meta) {
     localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(existingData));
 }
 
-export function getMetas(){
+export function getMetas() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || []
+}
+
+
+export function deleteMeta(idMeta) {
+    const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
+
+    const newData = existingData.filter(meta => meta.id !== idMeta);
+
+    localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(newData));
 }
