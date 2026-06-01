@@ -9,8 +9,17 @@ import {
 } from "@heroui/react";
 
 import { deleteMeta, getMetas } from "../../services/metasServices";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function MetasList({ metasData = [], deleteMeta }) {
+
+    const navigate = useNavigate();
+
+    const navegateToEditarMetasPage = (id) => {
+        navigate(`/editar-meta/${id}`);
+    };
+
     return (
         <div className="p-6 max-w-4xl mx-auto">
             <h2 className="text-2xl text-center font-bold mb-4">Metas</h2>
@@ -24,7 +33,7 @@ export default function MetasList({ metasData = [], deleteMeta }) {
                             <th className="px-4 py-3 text-left">Estado</th>
                             <th className="px-4 py-3 text-left">Inicio</th>
                             <th className="px-4 py-3 text-left">Finalizacion</th>
-                            <th className="px-4 py-3 text-left">Opciones</th>
+                            <th className="px-4 py-3 text-center">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +53,8 @@ export default function MetasList({ metasData = [], deleteMeta }) {
                                     <td className="px-4 py-3">{item.fechaDeInicio}</td>
                                     <td className="px-4 py-3">{item.fechaDeFinalizacion}</td>
                                     <td className="px-4 py-3">
-                                        <Button variant="danger" className="py-3" onClick={() => deleteMeta(item.id)}>Eliminar</Button>
+                                        <Button variant="danger" className="py-3 mr-2" onClick={() => deleteMeta(item.id)}>Eliminar</Button>
+                                        <Button onClick={() => navegateToEditarMetasPage(item.id)}>Editar</Button>
                                     </td>
                                 </tr>
                             ))
