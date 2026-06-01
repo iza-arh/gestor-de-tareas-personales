@@ -32,7 +32,7 @@ export function getMeta(idMeta) {
     return existingData.find(meta => meta.id === idMeta);
 }
 
-export function editMeta(idMeta, updatedMeta){
+export function editMeta(idMeta, updatedMeta) {
     const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
 
     const newData = existingData.map(meta =>
@@ -40,4 +40,15 @@ export function editMeta(idMeta, updatedMeta){
     );
 
     localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(newData));
+}
+
+export function returnTotalDeMetas() {
+    const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
+    return existingData.length
+}
+
+export function returnCantidadDeSubMetas(type) {
+    const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
+    const subMetas = existingData.filter(meta => meta.estado === type);
+    return subMetas.length
 }
