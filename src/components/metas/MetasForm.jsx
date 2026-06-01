@@ -6,17 +6,23 @@ import {
 } from "@heroui/react";
 import React from "react";
 import { useState } from "react";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone, today, parseDate } from "@internationalized/date";
 
-function MetasForm() {
-   const [value, setValue] = React.useState("");
+function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
+   const [value, setValue] = React.useState(initialData?.descripcion || "");
+
+   const [titulo, setTitulo] = React.useState(initialData?.titulo || "");
+
+   const [estado, setEstado] = React.useState(initialData?.estado || null);
 
    const currentDate = today(getLocalTimeZone());
 
-   const [startDate, setStartDate] = useState(null);
+   const [startDate, setStartDate] = useState(
+      initialData?.fechaDeInicio ? parseDate(initialData.fechaDeInicio) : null);
    const isStartInvalid = startDate != null && startDate.compare(currentDate) < 0;
 
-   const [endDate, setEndDate] = useState(null);
+   const [endDate, setEndDate] = useState(
+      initialData?.fechaDeFinalizacion ? parseDate(initialData.fechaDeFinalizacion) : null);
    const isEndInvalid = endDate != null && endDate.compare(currentDate) < 0;
 
    const existingData = JSON.parse(localStorage.getItem('myFormData')) || [];
@@ -27,8 +33,8 @@ function MetasForm() {
       const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData.entries());
 
-      let newEntry = {
-         id: Math.random().toString(36).substring(2, 11),
+      let formattedData = {
+         id: initialData?.id || Math.random().toString(36).substring(2, 11),
          titulo: data.titulo,
          descripcion: data.descripcion,
          estado: data.estado,
@@ -36,19 +42,19 @@ function MetasForm() {
          fechaDeFinalizacion: data.fecha_de_finalizacion ? data.fecha_de_finalizacion.toString() : null
       };
 
-      existingData.push(newEntry);
-
-      localStorage.setItem('myFormData', JSON.stringify(existingData));
+      onSubmitAction(formattedData);
 
       e.target.reset();
       setValue("");
       setStartDate(null);
       setEndDate(null);
+      setTitulo("")
+      setEstado("")
    };
 
    return (
       <div>
-         <h1 className="text-center">Meta</h1>
+         <h1 className="text-center">{formTitle}</h1>
          <Form
             className="flex w-96 flex-col gap-4"
             onSubmit={onSubmit}
@@ -57,6 +63,8 @@ function MetasForm() {
                isRequired
                name="titulo"
                type="text"
+               value={titulo}
+               onChange={(val) => setTitulo(val)}
                validate={(value) => {
                   const trimmedValue = value ? value.trim() : "";
 
@@ -85,14 +93,15 @@ function MetasForm() {
                      return "La descripcion no puede exeder los 280 caracteres";
                   }
                   return null;
-               }}>
+               }}
+               value={value}
+               onChange={(val) => setValue(val)}
+            >
                <Label>Descripcion</Label>
                <TextArea
                   aria-describedby="textarea-controlled-description"
                   aria-label="Announcement"
                   placeholder="Agrega breve descripcion"
-                  value={value}
-                  onChange={(event) => setValue(event.target.value)}
                />
                <Description id="textarea-controlled-description">
                   Caracteres: {value.length} / 280
@@ -109,6 +118,8 @@ function MetasForm() {
                   const selectedValue = Array.from(value)[0]?.toString() || "";
                   return !selectedValue.trim() ? "El estado es requerido" : true;
                }}
+               selectedKey={estado}
+               onSelectionChange={(key) => setEstado(key)}
             >
                <Label>Estado</Label>
                <Select.Trigger>

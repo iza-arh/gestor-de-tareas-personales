@@ -4,25 +4,22 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
-
     const navigate = useNavigate();
-
-    const manejarNavegacion = () => {
-        // Aquí podrías validar algo antes de viajar
-        navigate('/metas-form-agregar-meta');
-    };
 
     const cerrarMenuMovil = () => {
         setIsOpen(false);
     };
 
+    const navigateAndClose = (path) => {
+        navigate(path);
+        cerrarMenuMovil();
+    };
+
     return (
         <>
-            {/* --- Encabezado y boton --- */}
             <div className="lg:hidden flex items-center justify-between p-4 bg-[#fffaf6] border-b border-[#dfd4cc] fixed top-0 left-0 right-0 z-40">
                 <span className="font-semibold text-xl text-[#2b211d]">Menu</span>
 
-                {/* Mostrar boton cuando el sidebar esta cerrado */}
                 {!isOpen && (
                     <button
                         type="button"
@@ -50,14 +47,11 @@ export default function Sidebar() {
     `}
             >
                 <div className="relative flex flex-col h-full max-h-full">
-
-                    {/* --- Encabezado de Sidebar--- */}
                     <header className="p-6 flex justify-between items-center border-b border-[#dfd4cc]">
                         <a className="font-semibold text-2xl text-[#2b211d]" href="#">
                             Menu
                         </a>
 
-                        {/* Cerrar (solo disponible en telefonos y tablets) */}
                         <button
                             type="button"
                             onClick={() => setIsOpen(false)}
@@ -70,7 +64,6 @@ export default function Sidebar() {
                         </button>
                     </header>
 
-                    {/* --- Links de navegacion --- */}
                     <nav className="h-full overflow-y-auto px-5 py-6">
                         <ul className="space-y-3">
                             <li>
@@ -87,10 +80,11 @@ export default function Sidebar() {
                                     Tareas
                                 </NavLink>
                             </li>
+
                             <li className="w-full">
                                 <Dropdown>
                                     <Button
-                                        aria-label="Menu"
+                                        aria-label="Menu metas"
                                         variant="ghost"
                                         className="w-full rounded-xl bg-[#ede5df] px-4 py-3 text-base font-semibold text-[#2b211d] hover:bg-[#e2d6cc]"
                                     >
@@ -98,11 +92,49 @@ export default function Sidebar() {
                                     </Button>
                                     <Dropdown.Popover>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item id="new-file" textValue="New file" onClick={manejarNavegacion}>
+                                            <Dropdown.Item
+                                                id="agregar-meta"
+                                                textValue="Agregar meta"
+                                                onClick={() => navigateAndClose('/metas-form-agregar-meta')}
+                                            >
                                                 <Label>Agregar meta</Label>
                                             </Dropdown.Item>
-                                            <Dropdown.Item id="copy-link" textValue="Copy link">
+                                            <Dropdown.Item
+                                                id="ver-metas"
+                                                textValue="Ver metas"
+                                                onClick={() => navigateAndClose('/metas-list')}
+                                            >
                                                 <Label>Ver metas</Label>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                id="metricas-metas"
+                                                textValue="Ver metricas"
+                                                onClick={() => navigateAndClose('/metricas-de-metas')}
+                                            >
+                                                <Label>Ver metricas</Label>
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown.Popover>
+                                </Dropdown>
+                            </li>
+
+                            <li className="w-full">
+                                <Dropdown>
+                                    <Button
+                                        aria-label="Menu categorias"
+                                        variant="ghost"
+                                        className="w-full rounded-xl bg-[#ede5df] px-4 py-3 text-base font-semibold text-[#2b211d] hover:bg-[#e2d6cc]"
+                                    >
+                                        Categorias
+                                    </Button>
+                                    <Dropdown.Popover>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                id="categorias"
+                                                textValue="Categorias"
+                                                onClick={() => navigateAndClose('/categorias')}
+                                            >
+                                                <Label>Ingresar Categoria</Label>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>
