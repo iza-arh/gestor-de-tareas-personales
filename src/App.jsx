@@ -11,7 +11,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-[#f5efe9] text-[#211916]">
+      <div className="min-h-screen bg-background text-foreground">
         <Sidebar />
 
         <main className="p-6 pt-24 lg:ml-72 lg:px-12 lg:py-10">

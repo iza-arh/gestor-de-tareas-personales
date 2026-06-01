@@ -54,6 +54,7 @@ export function useTasks() {
       fechaVencimiento: taskData.fechaVencimiento,
       estado: taskData.estado,
       prioridad: taskData.prioridad,
+      metaId: taskData.metaId || "",
       creadaEn: now,
       actualizadaEn: now,
     };

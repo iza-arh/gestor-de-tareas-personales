@@ -4,12 +4,20 @@ import { returnCantidadDeSubMetas } from "../../services/metasServices";
 import CommonPieChart from "../../components/common/CommonPieChart";
 import CommonBarChart from "../../components/common/CommonBarChart";
 import { returnMetasPorMes } from "../../services/metasServices";
+import { getStoredTasks } from "../../services/taskStorage";
+import { TASK_STATUS } from "../../hooks/useTasks";
 
 export default function MetasDashboardPage() {
     const totalDeMetas = returnTotalDeMetas();
     const metasFinalizadas = returnCantidadDeSubMetas("finalizada")
     const metasPendientes = returnCantidadDeSubMetas("pendiente")
     const metasEnProceso = returnCantidadDeSubMetas("en-proceso")
+    const tasks = getStoredTasks();
+    const totalDeTareas = tasks.length;
+    const tareasFinalizadas = tasks.filter(task => task.estado === TASK_STATUS.completed).length;
+    const tareasPendientes = tasks.filter(task => task.estado === TASK_STATUS.pending).length;
+    const tareasEnProceso = tasks.filter(task => task.estado === TASK_STATUS.inProgress).length;
+    const tareasConMeta = tasks.filter(task => task.metaId).length;
 
     const data = [
         { name: 'Finalizadas', value: metasFinalizadas },
@@ -32,18 +40,37 @@ export default function MetasDashboardPage() {
         { name: 'Diciembre', value: returnMetasPorMes("12") },
     ];
 
+    const tareasData = [
+        { name: 'Completadas', value: tareasFinalizadas },
+        { name: 'En proceso', value: tareasEnProceso },
+        { name: 'Pendientes', value: tareasPendientes },
+    ];
+
     return (
-        <div className="w-4/5 space-y-4 flex flex-col items-center">
-            <div className="flex space-x-4">
+        <div className="w-full space-y-8 flex flex-col items-center">
+            <section className="w-full space-y-4">
+                <div>
+                    <p className="text-sm font-semibold uppercase tracking-wide text-primary">Dashboard</p>
+                    <h1 className="text-3xl font-bold text-foreground">Metas y tareas</h1>
+                    <p className="text-default-600">Resumen sincronizado del avance de metas y tareas asociadas.</p>
+                </div>
+            </section>
+
+            <div className="flex flex-wrap justify-center gap-4">
                 <MetricCard label={"Metas Finalizadas"} totalRecords={totalDeMetas}
                     subRecords={metasFinalizadas} color={"#00C68D"} className="mr-3"></MetricCard>
                 <MetricCard label={"Metas En proceso"} totalRecords={totalDeMetas}
                     subRecords={metasEnProceso} color={"#0055DA"}></MetricCard>
                 <MetricCard label={"Metas pendientes"} totalRecords={totalDeMetas}
                     subRecords={metasPendientes} color={"#FFD400"}></MetricCard>
+                <MetricCard label={"Tareas completadas"} totalRecords={totalDeTareas}
+                    subRecords={tareasFinalizadas} color={"#00C68D"}></MetricCard>
+                <MetricCard label={"Tareas con meta"} totalRecords={totalDeTareas}
+                    subRecords={tareasConMeta} color={"#0055DA"}></MetricCard>
             </div>
 
             <CommonPieChart metasData={data}></CommonPieChart>
+            <CommonPieChart metasData={tareasData}></CommonPieChart>
             <CommonBarChart metasData={numeroDeMetasPorMes}></CommonBarChart>
         </div>
     )

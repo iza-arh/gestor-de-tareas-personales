@@ -1,6 +1,7 @@
 import TaskItem from "./TaskItem";
 
 export default function TaskList({
+  metasById,
   tasks,
   onEdit,
   onDelete,
@@ -8,7 +9,7 @@ export default function TaskList({
 }) {
   if (tasks.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[#d8ccc3] bg-[#fffaf6] p-8 text-center text-[#7b6259]">
+      <div className="rounded-xl border border-dashed border-divider bg-content1 p-8 text-center text-default-500">
         No hay tareas para mostrar.
       </div>
     );
@@ -19,6 +20,7 @@ export default function TaskList({
       {tasks.map((task) => (
         <TaskItem
           key={task.id}
+          metaTitle={metasById[task.metaId]?.titulo}
           onChangeStatus={onChangeStatus}
           onDelete={onDelete}
           onEdit={onEdit}

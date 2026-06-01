@@ -17,14 +17,14 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className="lg:hidden flex items-center justify-between p-4 bg-[#fffaf6] border-b border-[#dfd4cc] fixed top-0 left-0 right-0 z-40">
-                <span className="font-semibold text-xl text-[#2b211d]">Menu</span>
+            <div className="lg:hidden flex items-center justify-between p-4 bg-content1 border-b border-divider fixed top-0 left-0 right-0 z-40">
+                <span className="font-semibold text-xl text-foreground">Menu</span>
 
                 {!isOpen && (
                     <button
                         type="button"
                         onClick={() => setIsOpen(true)}
-                        className="py-2 px-3 inline-flex justify-center items-center text-sm font-medium rounded-lg shadow-sm bg-[#8f5d4c] text-white hover:bg-[#7d4f41] transition-colors"
+                        className="py-2 px-3 inline-flex justify-center items-center text-sm font-medium rounded-lg shadow-sm bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
                     >
                         Abrir menu
                     </button>
@@ -41,21 +41,21 @@ export default function Sidebar() {
             <div
                 className={`
         fixed top-0 bottom-0 left-0 h-full w-72 transition-transform duration-300 transform z-50
-        bg-[#fffaf6] border-r border-[#dfd4cc] flex flex-col shadow-[8px_0_24px_rgba(80,57,48,0.08)]
+        bg-white dark:bg-zinc-900 border-r border-divider flex flex-col
         lg:translate-x-0 lg:z-30
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
     `}
             >
                 <div className="relative flex flex-col h-full max-h-full">
-                    <header className="p-6 flex justify-between items-center border-b border-[#dfd4cc]">
-                        <a className="font-semibold text-2xl text-[#2b211d]" href="#">
+                    <header className="p-6 flex justify-between items-center border-b border-divider">
+                        <a className="font-semibold text-2xl text-foreground" href="#">
                             Menu
                         </a>
 
                         <button
                             type="button"
                             onClick={() => setIsOpen(false)}
-                            className="lg:hidden flex justify-center items-center w-7 h-7 bg-[#f1e7df] border border-[#dfd4cc] text-[#5f4a42] hover:bg-[#eadbd0] rounded-full"
+                            className="lg:hidden flex justify-center items-center w-7 h-7 bg-default-100 border border-divider text-default-600 hover:bg-default-200 rounded-full"
                         >
                             <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M18 6 6 18" />
@@ -70,8 +70,8 @@ export default function Sidebar() {
                                 <NavLink
                                     className={({ isActive }) =>
                                         `block rounded-xl px-4 py-3 text-base font-semibold transition ${isActive
-                                            ? "bg-[#8f5d4c] text-white shadow-sm"
-                                            : "text-[#3d302b] hover:bg-[#f1e7df]"
+                                            ? "bg-primary text-primary-foreground shadow-sm"
+                                            : "text-foreground hover:bg-default-100"
                                         }`
                                     }
                                     onClick={cerrarMenuMovil}
@@ -86,7 +86,7 @@ export default function Sidebar() {
                                     <Button
                                         aria-label="Menu metas"
                                         variant="ghost"
-                                        className="w-full rounded-xl bg-[#ede5df] px-4 py-3 text-base font-semibold text-[#2b211d] hover:bg-[#e2d6cc]"
+                                        className="w-full rounded-xl px-4 py-3 text-base font-semibold"
                                     >
                                         Metas
                                     </Button>
@@ -123,7 +123,7 @@ export default function Sidebar() {
                                     <Button
                                         aria-label="Menu categorias"
                                         variant="ghost"
-                                        className="w-full rounded-xl bg-[#ede5df] px-4 py-3 text-base font-semibold text-[#2b211d] hover:bg-[#e2d6cc]"
+                                        className="w-full rounded-xl px-4 py-3 text-base font-semibold"
                                     >
                                         Categorias
                                     </Button>

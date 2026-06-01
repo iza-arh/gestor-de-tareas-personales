@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import TaskFilters from "../components/tasks/TaskFilters";
-import TaskForm from "../components/tasks/TaskForm";
 import TaskList from "../components/tasks/TaskList";
+import TaskModal from "../components/tasks/TaskModal";
 import { useTasks } from "../hooks/useTasks";
+import { getMetas } from "../services/metasServices";
 
 export default function TasksPage() {
   const {
@@ -18,42 +19,79 @@ export default function TasksPage() {
     deleteTask,
   } = useTasks();
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const metas = useMemo(() => getMetas(), []);
+  const metasById = useMemo(
+    () =>
+      metas.reduce((accumulator, meta) => {
+        accumulator[meta.id] = meta;
+        return accumulator;
+      }, {}),
+    [metas]
+  );
+
+  const openCreateModal = () => {
+    setTaskToEdit(null);
+    setIsTaskModalOpen(true);
+  };
+
+  const openEditModal = (task) => {
+    setTaskToEdit(task);
+    setIsTaskModalOpen(true);
+  };
+
+  const closeTaskModal = () => {
+    setTaskToEdit(null);
+    setIsTaskModalOpen(false);
+  };
 
   const handleSubmit = (taskData) => {
     if (taskToEdit) {
       updateTask(taskToEdit.id, taskData);
-      setTaskToEdit(null);
+      closeTaskModal();
       return;
     }
 
     createTask(taskData);
+    closeTaskModal();
   };
 
   return (
     <section className="flex w-full max-w-6xl flex-col gap-6">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-wide text-[#9b4f4f]">
-          Universidad de El Salvador
-        </p>
-        <h1 className="mt-1 text-4xl font-bold text-[#211916]">Tareas</h1>
-        <p className="mt-3 max-w-3xl text-lg text-[#5f4a42]">
-          Aplicacion en React para crear, consultar, actualizar y eliminar
-          tareas con persistencia en localStorage.
-        </p>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+            Universidad de El Salvador
+          </p>
+          <h1 className="mt-1 text-4xl font-bold text-foreground">Tareas</h1>
+          <p className="mt-3 max-w-3xl text-lg text-default-600">
+            Administra tareas conectadas con metas para dar seguimiento al avance
+            del proyecto.
+          </p>
+        </div>
+
+        <button
+          className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
+          onClick={openCreateModal}
+          type="button"
+        >
+          Nueva tarea
+        </button>
       </div>
 
-      <div className="grid gap-8 xl:grid-cols-[minmax(320px,440px)_1fr]">
-        <TaskForm
-          key={taskToEdit?.id || "new-task"}
-          onCancelEdit={() => setTaskToEdit(null)}
-          onSubmit={handleSubmit}
-          taskToEdit={taskToEdit}
-        />
+      <TaskModal
+        isOpen={isTaskModalOpen}
+        metas={metas}
+        onClose={closeTaskModal}
+        onSubmit={handleSubmit}
+        taskToEdit={taskToEdit}
+      />
 
+      <div className="grid gap-8">
         <div className="flex flex-col gap-4">
-          <div className="rounded-xl border border-[#dfd4cc] bg-[#fffaf6] p-5 shadow-[0_10px_28px_rgba(80,57,48,0.08)]">
-            <p className="text-sm font-medium text-[#7b6259]">Total de tareas</p>
-            <p className="text-4xl font-bold text-[#211916]">{tasks.length}</p>
+          <div className="rounded-xl border border-divider bg-content1 p-5 shadow-sm">
+            <p className="text-sm font-medium text-default-500">Total de tareas</p>
+            <p className="text-4xl font-bold text-foreground">{tasks.length}</p>
           </div>
 
           <TaskFilters
@@ -64,9 +102,10 @@ export default function TasksPage() {
           />
 
           <TaskList
+            metasById={metasById}
             onChangeStatus={updateTaskStatus}
             onDelete={deleteTask}
-            onEdit={setTaskToEdit}
+            onEdit={openEditModal}
             tasks={filteredTasks}
           />
         </div>
