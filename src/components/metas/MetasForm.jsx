@@ -34,7 +34,7 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
       const data = Object.fromEntries(formData.entries());
 
       let formattedData = {
-         id: Math.random().toString(36).substring(2, 11),
+         id: initialData?.id || Math.random().toString(36).substring(2, 11),
          titulo: data.titulo,
          descripcion: data.descripcion,
          estado: data.estado,
@@ -63,6 +63,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                isRequired
                name="titulo"
                type="text"
+               value={titulo}
+               onChange={(val) => setTitulo(val)}
                validate={(value) => {
                   const trimmedValue = value ? value.trim() : "";
 
@@ -80,11 +82,7 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                }}
             >
                <Label>Titulo</Label>
-               <Input
-                  placeholder="Conseguir trabajo"
-                  value={titulo}
-                  onChange={(event) => setTitulo(event.target.value)}
-               />
+               <Input placeholder="Conseguir trabajo" />
                <FieldError />
             </TextField>
             <TextField
@@ -95,14 +93,15 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                      return "La descripcion no puede exeder los 280 caracteres";
                   }
                   return null;
-               }}>
+               }}
+               value={value}
+               onChange={(val) => setValue(val)}
+            >
                <Label>Descripcion</Label>
                <TextArea
                   aria-describedby="textarea-controlled-description"
                   aria-label="Announcement"
                   placeholder="Agrega breve descripcion"
-                  value={value}
-                  onChange={(event) => setValue(event.target.value)}
                />
                <Description id="textarea-controlled-description">
                   Caracteres: {value.length} / 280

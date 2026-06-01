@@ -31,3 +31,13 @@ export function getMeta(idMeta) {
 
     return existingData.find(meta => meta.id === idMeta);
 }
+
+export function editMeta(idMeta, updatedMeta){
+    const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY_METAS)) || [];
+
+    const newData = existingData.map(meta =>
+        meta.id === idMeta ? { ...meta, ...updatedMeta } : meta
+    );
+
+    localStorage.setItem(STORAGE_KEY_METAS, JSON.stringify(newData));
+}
