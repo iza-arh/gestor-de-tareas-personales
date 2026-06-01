@@ -19,6 +19,10 @@ export default function Sidebar() {
         navigate('/categorias');
     };
 
+    const navegateToMetasDashboardPage = () => {
+        navigate('/metricas-de-metas')
+    }
+
     return (
         <>
             {/* --- Encabezado y boton --- */}
@@ -89,6 +93,9 @@ export default function Sidebar() {
                                             <Dropdown.Item id="copy-link" textValue="Copy link" onClick={navegateToListaDeMetasPage}>
                                                 <Label>Ver metas</Label>
                                             </Dropdown.Item>
+                                            <Dropdown.Item id="" textValue="" onClick={navegateToMetasDashboardPage}>
+                                                <Label>Ver metricas</Label>
+                                            </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>
                                 </Dropdown>
@@ -101,7 +108,7 @@ export default function Sidebar() {
                                             <Dropdown.Item id="cat-unico" textValue="Categorias" onClick={navegateToCategoriasPage}>
                                                 <Label>Ingresar Categoria</Label>
                                             </Dropdown.Item>
-                                            
+
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>
                                 </Dropdown>

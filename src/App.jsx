@@ -4,6 +4,7 @@ import CrearMetaPage from './pages/metas/crearMetaPage';
 import ListaDeMetasPage from './pages/metas/ListaDeMetasPage';
 import CategoriasPage from './pages/categorias/CategoriaPage';
 import EditarMetasPage from './pages/metas/EditarMetasPage';
+import MetasDashboardPage from './pages/metas/MetasDashboardPage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/metas-list" element={<ListaDeMetasPage />} />
             <Route path="/categorias"element={<CategoriasPage />}/>
             <Route path="/editar-meta/:id" element={<EditarMetasPage />} />
+            <Route path="/metricas-de-metas" element={<MetasDashboardPage />} />
           </Routes>
         </main>
       </div>
