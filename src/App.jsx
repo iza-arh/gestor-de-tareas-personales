@@ -3,11 +3,9 @@ import Sidebar from './components/Sidebar';
 import CrearMetaPage from './pages/metas/crearMetaPage';
 import ListaDeMetasPage from './pages/metas/ListaDeMetasPage';
 import CategoriasPage from './pages/categorias/CategoriaPage';
+import EditarMetasPage from './pages/metas/EditarMetasPage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ListaDeMetasPage from './pages/metas/ListaDeMetasPage';
-import CategoriasPage from './pages/categorias/CategoriaPage';
-import EditarMetasPage from './pages/metas/EditarMetasPage';
 
 function App() {
   return (
