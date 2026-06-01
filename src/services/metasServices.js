@@ -52,3 +52,13 @@ export function returnCantidadDeSubMetas(type) {
     const subMetas = existingData.filter(meta => meta.estado === type);
     return subMetas.length
 }
+
+export function returnMetasPorMes(mesRequerido){
+    const existingData = JSON.parse(localStorage.getItem("metasData")) || [];
+    const metasPorMes = existingData.filter(meta => {
+        let mesDeMeta = meta.fechaDeInicio.split("-")[1];
+        return mesDeMeta === mesRequerido
+    });
+
+    return metasPorMes.length
+}
