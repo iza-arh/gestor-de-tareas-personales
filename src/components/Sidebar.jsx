@@ -130,11 +130,16 @@ export default function Sidebar() {
                                     <Dropdown.Popover>
                                         <Dropdown.Menu>
                                             <Dropdown.Item
-                                                id="categorias"
+                                                id="Agregar-Categoria"
                                                 textValue="Categorias"
-                                                onClick={() => navigateAndClose('/categorias')}
-                                            >
-                                                <Label>Ingresar Categoria</Label>
+                                                onClick={() => navigateAndClose('/Agregar-Categorias')}>
+                                                <Label>Agregar Categoria</Label>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                id="Lista-categoria"
+                                                textValue="Lista-categorias"
+                                                onClick={() => navigateAndClose('/Lista-Categorias')}>
+                                                <Label>Lista de Categorias</Label>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>

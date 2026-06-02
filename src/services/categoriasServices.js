@@ -21,19 +21,20 @@ export const createCategoria = (nuevaCategoria) => {
         };
         categorias.push(categoriaAInsertar);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(categorias));
-        return {succes: true};
+        return {success: true};
     } catch (error) {
-        return {succes: false};
+        return {success: false};
     }
 };
 
 //Despues de traer el arreglo, solo fliltra dejanod los que no tenga es ID y guarda el arreglo
 export const deleteCategoria = (id) => {
     try {
-        let categorias = getCategorias();
-        categorias = categorias.filter(cat => cat.id !== id);
-        return {succes: true };
+        const categorias = getCategorias();
+        const categorias_1 = categorias.filter(cat => cat.id !== id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(categorias_1));
+        return {success: true };
     } catch (error) {
-        return { succes: false};
+        return { success: false};
     }
 };
