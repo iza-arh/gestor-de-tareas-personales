@@ -52,7 +52,7 @@ export default function MetasList({ metasData = [], deleteMeta }) {
                                     <td className="px-4 py-3">{item.estado}</td>
                                     <td className="px-4 py-3">{item.fechaDeInicio}</td>
                                     <td className="px-4 py-3">{item.fechaDeFinalizacion}</td>
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-3 flex">
                                         <Button variant="danger" className="py-3 mr-2" onClick={() => deleteMeta(item.id)}>Eliminar</Button>
                                         <Button onClick={() => navegateToEditarMetasPage(item.id)}>Editar</Button>
                                     </td>
