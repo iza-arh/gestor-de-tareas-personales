@@ -1,6 +1,10 @@
 export default function MetricCard({ label, totalRecords, subRecords, color }) {
 
     const calculatePercentage = () => {
+        if (!totalRecords) {
+            return "0%"
+        }
+
         return String(Math.round((subRecords / totalRecords) * 100)) + "%"
     }
 
