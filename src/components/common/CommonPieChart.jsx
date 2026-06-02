@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { Card } from "@heroui/react";
 
-const COLORS = ['#FFD400', '#0055DA', '#00C68D'];
+const COLORS = ['#00C68D', '#0055DA', '#FFD400'];
 
 export default function CommonPieChart({ metasData }) {
     const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, fill, value }) => {
@@ -28,8 +28,8 @@ export default function CommonPieChart({ metasData }) {
     };
 
     return (
-        <Card className="w-3/5 flex justify-center" style={{ background: '#302E2E'}}>
-            <ResponsiveContainer width="100%" height={300}>
+        <Card className="w-3/5" style={{ background: '#302E2E'}}>
+            <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                     <Pie data={metasData} dataKey="value" label={renderCustomLabel}>
                         {metasData.map((entry, index) => (
