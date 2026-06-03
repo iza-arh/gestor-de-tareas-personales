@@ -5,51 +5,111 @@ import {
    DatePicker
 } from "@heroui/react";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getLocalTimeZone, today, parseDate } from "@internationalized/date";
 
+const defaultFormState = {
+   titulo: "",
+   estado: "",
+   descripcion: "",
+   fechaDeInicio: null,
+   fechaDeFinalizacion: null
+};
+
 function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
-   const [value, setValue] = React.useState(initialData?.descripcion || "");
 
-   const [titulo, setTitulo] = React.useState(initialData?.titulo || "");
+   let baseData = defaultFormState;
 
-   const [estado, setEstado] = React.useState(initialData?.estado || null);
+   function parseStringDate(obj) {
+      const newObj = { ...obj };
+      if (newObj.fechaDeInicio != null) {
+         newObj.fechaDeInicio = typeof newObj.fechaDeInicio === "string"
+            ? parseDate(newObj.fechaDeInicio)
+            : newObj.fechaDeInicio;
+      }
+
+      if (newObj.fechaDeFinalizacion != null) {
+         newObj.fechaDeFinalizacion = typeof newObj.fechaDeFinalizacion === "string"
+            ? parseDate(newObj.fechaDeFinalizacion)
+            : newObj.fechaDeFinalizacion;
+      }
+
+      return newObj;
+   }
+
+   const [formData, setFormData] = useState(() => {
+      if (initialData) {
+         const parsedInitialData = parseStringDate(initialData)
+         return parsedInitialData
+      }
+
+      const savedDraft = window.sessionStorage.getItem('meta-draft');
+
+      if (savedDraft) {
+         baseData = JSON.parse(savedDraft);
+         const parsedBasedData = parseStringDate(baseData)
+         return parsedBasedData;
+      }
+
+      return baseData
+
+   });
+
+   useEffect(() => {
+      if (!initialData) {
+         const toSave = {
+            ...formData,
+            fechaDeInicio: formData.fechaDeInicio?.toString() ?? null,
+            fechaDeFinalizacion: formData.fechaDeFinalizacion?.toString() ?? null,
+         };
+
+         const isEmpty =
+            !formData.titulo &&
+            !formData.estado &&
+            !formData.descripcion &&
+            !formData.fechaDeInicio &&
+            !formData.fechaDeFinalizacion;
+
+         if (isEmpty) {
+            window.sessionStorage.removeItem('meta-draft');
+         } else {
+            const toSave = {
+               ...formData,
+               fechaDeInicio: formData.fechaDeInicio?.toString() ?? null,
+               fechaDeFinalizacion: formData.fechaDeFinalizacion?.toString() ?? null,
+            };
+            window.sessionStorage.setItem('meta-draft', JSON.stringify(toSave));
+         }
+      }
+   }, [formData, initialData]);
+
+
+   const handleFieldChange = (name) => (value) => {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+   };
 
    const currentDate = today(getLocalTimeZone());
 
-   const [startDate, setStartDate] = useState(
-      initialData?.fechaDeInicio ? parseDate(initialData.fechaDeInicio) : null);
-   const isStartInvalid = startDate != null && startDate.compare(currentDate) < 0;
+   const isStartInvalid = formData.fechaDeInicio != null && formData.fechaDeInicio.compare(currentDate) < 0;
 
-   const [endDate, setEndDate] = useState(
-      initialData?.fechaDeFinalizacion ? parseDate(initialData.fechaDeFinalizacion) : null);
-   const isEndInvalid = endDate != null && endDate.compare(currentDate) < 0;
-
-   const existingData = JSON.parse(localStorage.getItem('myFormData')) || [];
+   const isEndInvalid = formData.fechaDeFinalizacion != null && formData.fechaDeFinalizacion.compare(currentDate) < 0;
 
    const onSubmit = (e) => {
       e.preventDefault();
 
-      const formData = new FormData(e.currentTarget);
-      const data = Object.fromEntries(formData.entries());
-
       let formattedData = {
          id: initialData?.id || Math.random().toString(36).substring(2, 11),
-         titulo: data.titulo,
-         descripcion: data.descripcion,
-         estado: data.estado,
-         fechaDeInicio: data.fecha_de_inicio ? data.fecha_de_inicio.toString() : null,
-         fechaDeFinalizacion: data.fecha_de_finalizacion ? data.fecha_de_finalizacion.toString() : null
+         titulo: formData.titulo,
+         descripcion: formData.descripcion,
+         estado: formData.estado,
+         fechaDeInicio: formData.fechaDeInicio ? formData.fechaDeInicio.toString() : null,
+         fechaDeFinalizacion: formData.fechaDeFinalizacion ? formData.fechaDeFinalizacion.toString() : null
       };
 
       onSubmitAction(formattedData);
 
-      e.target.reset();
-      setValue("");
-      setStartDate(null);
-      setEndDate(null);
-      setTitulo("")
-      setEstado("")
+      setFormData(defaultFormState);
+      window.sessionStorage.removeItem('meta-draft');
    };
 
    return (
@@ -63,8 +123,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                isRequired
                name="titulo"
                type="text"
-               value={titulo}
-               onChange={(val) => setTitulo(val)}
+               value={formData.titulo}
+               onChange={handleFieldChange("titulo")}
                validate={(value) => {
                   const trimmedValue = value ? value.trim() : "";
 
@@ -94,8 +154,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                   }
                   return null;
                }}
-               value={value}
-               onChange={(val) => setValue(val)}
+               value={formData.descripcion}
+               onChange={handleFieldChange("descripcion")}
             >
                <Label>Descripcion</Label>
                <TextArea
@@ -104,7 +164,7 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                   placeholder="Agrega breve descripcion"
                />
                <Description id="textarea-controlled-description">
-                  Caracteres: {value.length} / 280
+                  Caracteres: {formData.descripcion.length} / 280
                </Description>
                <FieldError />
             </TextField>
@@ -118,8 +178,8 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                   const selectedValue = Array.from(value)[0]?.toString() || "";
                   return !selectedValue.trim() ? "El estado es requerido" : true;
                }}
-               selectedKey={estado}
-               onSelectionChange={(key) => setEstado(key)}
+               selectedKey={formData.estado}
+               onSelectionChange={handleFieldChange("estado")}
             >
                <Label>Estado</Label>
                <Select.Trigger>
@@ -149,9 +209,9 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                className="w-3/5 mx-auto"
                isInvalid={isStartInvalid}
                minValue={currentDate}
-               name="fecha_de_inicio"
-               value={startDate}
-               onChange={setStartDate}
+               name="fechaDeInicio"
+               value={formData.fechaDeInicio}
+               onChange={handleFieldChange("fechaDeInicio")}
             >
                <Label>Fecha de inicio</Label>
                <DateField.Group fullWidth>
@@ -200,9 +260,9 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                className="w-3/5 mx-auto"
                isInvalid={isEndInvalid}
                minValue={currentDate}
-               name="fecha_de_finalizacion"
-               value={endDate}
-               onChange={setEndDate}
+               name="fechaDeFinalizacion"
+               value={formData.fechaDeFinalizacion}
+               onChange={handleFieldChange("fechaDeFinalizacion")}
             >
                <Label>Fecha de finalizacion</Label>
                <DateField.Group fullWidth>
@@ -254,17 +314,15 @@ function MetasForm({ onSubmitAction, formTitle = "Meta", initialData = null }) {
                   type="reset"
                   variant="secondary"
                   onClick={() => {
-                     setValue("")
-                     setStartDate(null)
-                     setEndDate(null)
-                  }}>
+                     setFormData(defaultFormState);
+                     window.sessionStorage.removeItem('meta-draft');
+                  }}
+               >
                   Reset
                </Button>
             </div>
          </Form>
       </div>
-
-
    )
 }
 

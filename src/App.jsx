@@ -15,7 +15,7 @@ function App() {
       <div className="min-h-screen bg-background text-foreground">
         <Sidebar />
 
-        <main className="p-6 pt-24 lg:ml-72 lg:px-12 lg:py-10">
+        <main className="p-6 pt-24 lg:ml-72 lg:px-12 lg:py-10 flex justify-center">
           <Routes>
             <Route path="/" element={<TasksPage />} />
             <Route path="/tareas" element={<TasksPage />} />
