@@ -21,9 +21,9 @@ export const createCategoria = (nuevaCategoria) => {
         };
         categorias.push(categoriaAInsertar);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(categorias));
-        return {success: true};
+        return { success: true };
     } catch (error) {
-        return {success: false};
+        return { success: false };
     }
 };
 
@@ -33,9 +33,9 @@ export const deleteCategoria = (id) => {
         const categorias = getCategorias();
         const categorias_1 = categorias.filter(cat => cat.id !== id);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(categorias_1));
-        return {success: true };
+        return { success: true };
     } catch (error) {
-        return { success: false};
+        return { success: false };
     }
 };
 
@@ -56,5 +56,14 @@ export const updateCategoria = (id, categoriaActualizada) => {
     } catch (error) {
         return { success: false, message: "Error al actualizar la categoria" };
     }
-
 };
+
+    export const getTotalCategorias = () => {
+        const categorias = getCategorias();
+        return categorias.length;
+    };
+
+    export const getCategoriasPorEstado = (estado) => {
+        const categorias = getCategorias();
+        return categorias.filter(cat => cat.estado === estado).length;
+    };
