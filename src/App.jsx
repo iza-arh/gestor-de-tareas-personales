@@ -9,6 +9,7 @@ import EditarMetasPage from './pages/metas/EditarMetasPage';
 import MetasDashboardPage from './pages/metas/MetasDashboardPage';
 import EditarCategoriaPage from './pages/categorias/EditarCategoriaPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import CategoriaDashboardPage from './pages/categorias/CategoriaDashboardPage';
 import { Toast } from '@heroui/react';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/editar-meta/:id" element={<EditarMetasPage />} />
             <Route path="/metricas-de-metas" element={<MetasDashboardPage />} />
             <Route path="/editar-categoria/:id" element={<EditarCategoriaPage />} />
+            <Route path="/metricas-de-categorias" element={<CategoriaDashboardPage />} />
           </Routes>
         </main>
       </div>

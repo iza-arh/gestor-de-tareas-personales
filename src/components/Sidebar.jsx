@@ -141,6 +141,12 @@ export default function Sidebar() {
                                                 onClick={() => navigateAndClose('/Lista-Categorias')}>
                                                 <Label>Lista de Categorias</Label>
                                             </Dropdown.Item>
+                                            <Dropdown.Item
+                                                id="metricas-categorias"
+                                                textValue="metricas-categorias"
+                                                onClick={() => navigateAndClose('/metricas-de-categorias')}>
+                                                <Label>Metricas de Categorias</Label>
+                                            </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown.Popover>
                                 </Dropdown>
