@@ -1,9 +1,11 @@
 import React from "react";
 import { deleteCategoria } from "../../services/categoriasServices";
+import { useNavigate } from "react-router-dom";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button } from '@heroui/react';
 
 
 export default function CategoriaList({ categorias, onCategoriaEliminada }) {
+    const navigate = useNavigate();
 
     const handlerEliminar = (id) => {
 
@@ -39,11 +41,18 @@ export default function CategoriaList({ categorias, onCategoriaEliminada }) {
                                 <TableCell>{item.nombre}</TableCell>
                                 <TableCell>{item.descripcion}</TableCell>
                                 <TableCell>
-                                    <Button
-                                        size="sm"
-                                        color="danger"
-                                        onClick={() => handlerEliminar(item.id)}
-                                    >Eliminar</Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            size="sm"
+                                            color="danger"
+                                            onClick={() => handlerEliminar(item.id)}
+                                        >Eliminar</Button>
+                                        <Button
+                                            size="sm"
+                                            color="primary"
+                                            onClick={() => navigate(`/editar-categoria/${item.id}`)}
+                                        >Editar</Button>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))}

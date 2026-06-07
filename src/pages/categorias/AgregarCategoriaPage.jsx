@@ -20,7 +20,7 @@ export default function AgregarCategoriasPage() {
     return (
         <div className='w-full max-w-md p-6'>
             <h1 className='text-2x1 font-bold mb-6'>Agregar Nueva Categoria</h1>
-            <CategoriaForm onCategoriaCreada={handleGuardar} />
+            <CategoriaForm onGuardar={handleGuardar} />
         </div>
     
     );
