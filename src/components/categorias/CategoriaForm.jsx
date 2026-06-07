@@ -1,23 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button, TextArea } from "@heroui/react";
 
-export default function CategoriaForm({ onCategoriaCreada }) {
+export default function CategoriaForm({ onGuardar, categoriaInicial = null }) {
     // Lógica: Tu objeto "Categoria" tiene exactamente dos atributos.
     const [formData, setFormData] = useState({
         nombre: "",
         descripcion: ""
     });
 
+    useEffect(() => {
+        if (categoriaInicial) {
+            setFormData(categoriaInicial);
+        } else {
+            setFormData({ nombre: "", descripcion: "" });
+        }
+    }, [categoriaInicial]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Aquí pasas el objeto "Categoria" completo
-        onCategoriaCreada(formData);
+        onGuardar(formData);
         setFormData({ nombre: "", descripcion: "" });
     };
 
     return (
         <form onSubmit={handleSubmit} className="p-6 bg-content1 rounded-xl shadow-sm border border-divider w-full max-w-md space-y-4">
-            <h2 className="text-xl font-bold">Nueva Categoría</h2>
+            <h2 className="text-xl font-bold">{categoriaInicial ? "Editar Categoria" : "Nueva Categoria"}</h2>
 
             <p className="text-xl">Ingrese el nombre de la categoria</p>
             {/* Atributo 1: Nombre */}
@@ -40,7 +48,7 @@ export default function CategoriaForm({ onCategoriaCreada }) {
             />
 
             <Button type="submit" color="primary" className="w-full">
-                Guardar
+                {categoriaInicial ? "Actualizar Categoria" : "Crear Categoria"}
             </Button>
         </form>
     );

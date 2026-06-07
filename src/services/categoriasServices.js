@@ -38,3 +38,23 @@ export const deleteCategoria = (id) => {
         return { success: false};
     }
 };
+
+export const updateCategoria = (id, categoriaActualizada) => {
+    try {
+        const categorias = getCategorias();
+        const index = categorias.findIndex(cat => cat.id === id);
+        if (index !== -1) {
+            categorias[index] = {
+                id: id,
+                nombre: categoriaActualizada.nombre,
+                descripcion: categoriaActualizada.descripcion
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(categorias));
+            return { success: true };
+        }
+        return { success: false, message: "Categoria no encontrada" };
+    } catch (error) {
+        return { success: false, message: "Error al actualizar la categoria" };
+    }
+
+};
