@@ -8,6 +8,7 @@ import ListaCategoriaPage from './pages/categorias/ListaCategoriasPage';
 import EditarMetasPage from './pages/metas/EditarMetasPage';
 import MetasDashboardPage from './pages/metas/MetasDashboardPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toast } from '@heroui/react';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Sidebar />
 
         <main className="p-6 pt-24 lg:ml-72 lg:px-12 lg:py-10 flex justify-center">
+          <Toast.Provider />
           <Routes>
             <Route path="/" element={<TasksPage />} />
             <Route path="/tareas" element={<TasksPage />} />
