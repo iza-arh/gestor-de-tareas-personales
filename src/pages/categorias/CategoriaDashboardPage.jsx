@@ -12,10 +12,18 @@ export default function CategoriaDashboardPage() {
         setTotal(todas.length);
 
         const sesionCategorias = sessionStorage.getItem('sesionCategoriasVista');
-        
         if (!sesionCategorias) {
             console.log("Primera vez visitando el Dashboard de Categorías en esta sesión.");
             sessionStorage.setItem('sesionCategoriasVista', 'true');
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const { latitude, longitude } = position.coords;
+                fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=es')
+                    .then(res => res.json())
+                    .then(data => setClima(data));
+            });
         }
         const worker = new Worker('/categoriaWorker.js');
         worker.postMessage({ data: todas });
