@@ -4,6 +4,7 @@ import TaskList from "../components/tasks/TaskList";
 import TaskModal from "../components/tasks/TaskModal";
 import { useTasks } from "../hooks/useTasks";
 import { getMetas } from "../services/metasServices";
+import { Button } from "@heroui/react";
 
 export default function TasksPage() {
   const {
@@ -70,13 +71,14 @@ export default function TasksPage() {
           </p>
         </div>
 
-        <button
-          className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
+        <Button
+          color="primary"
+          className="px-5 py-3 font-semibold shadow-sm"
           onClick={openCreateModal}
           type="button"
         >
           Nueva tarea
-        </button>
+        </Button>
       </div>
 
       <TaskModal
