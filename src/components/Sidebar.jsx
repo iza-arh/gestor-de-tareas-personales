@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Dropdown, Label } from "@heroui/react";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -66,19 +66,34 @@ export default function Sidebar() {
 
                     <nav className="h-full overflow-y-auto px-5 py-6">
                         <ul className="space-y-3">
-                            <li>
-                                <NavLink
-                                    className={({ isActive }) =>
-                                        `block rounded-xl px-4 py-3 text-base font-semibold transition ${isActive
-                                            ? "bg-primary text-primary-foreground shadow-sm"
-                                            : "text-foreground hover:bg-default-100"
-                                        }`
-                                    }
-                                    onClick={cerrarMenuMovil}
-                                    to="/tareas"
-                                >
-                                    Tareas
-                                </NavLink>
+                            <li className="w-full">
+                                <Dropdown>
+                                    <Button
+                                        aria-label="Menu tareas"
+                                        variant="ghost"
+                                        className="w-full rounded-xl px-4 py-3 text-base font-semibold"
+                                    >
+                                        Tareas
+                                    </Button>
+                                    <Dropdown.Popover>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                id="ver-tareas"
+                                                textValue="Ver tareas"
+                                                onClick={() => navigateAndClose('/tareas')}
+                                            >
+                                                <Label>Ver tareas</Label>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                id="metricas-tareas"
+                                                textValue="Metricas de tareas"
+                                                onClick={() => navigateAndClose('/metricas-de-tareas')}
+                                            >
+                                                <Label>Metricas de tareas</Label>
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown.Popover>
+                                </Dropdown>
                             </li>
 
                             <li className="w-full">

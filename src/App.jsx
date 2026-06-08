@@ -10,6 +10,7 @@ import MetasDashboardPage from './pages/metas/MetasDashboardPage';
 import EditarCategoriaPage from './pages/categorias/EditarCategoriaPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CategoriaDashboardPage from './pages/categorias/CategoriaDashboardPage';
+import TasksDashboardPage from './pages/tasks/TasksDashboardPage';
 import { Toast } from '@heroui/react';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<TasksPage />} />
             <Route path="/tareas" element={<TasksPage />} />
+            <Route path="/metricas-de-tareas" element={<TasksDashboardPage />} />
             <Route path="/metas-form-agregar-meta" element={<CrearMetaPage />} />
             <Route path="/metas-list" element={<ListaDeMetasPage />} />
             <Route path="/Agregar-Categorias" element={<AgregarCategoriasPage />} />
