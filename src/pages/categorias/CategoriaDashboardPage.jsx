@@ -11,6 +11,12 @@ export default function CategoriaDashboardPage() {
         const todas = getCategorias();
         setTotal(todas.length);
 
+        const sesionCategorias = sessionStorage.getItem('sesionCategoriasVista');
+        
+        if (!sesionCategorias) {
+            console.log("Primera vez visitando el Dashboard de Categorías en esta sesión.");
+            sessionStorage.setItem('sesionCategoriasVista', 'true');
+        }
         const worker = new Worker('/categoriaWorker.js');
         worker.postMessage({ data: todas });
 
