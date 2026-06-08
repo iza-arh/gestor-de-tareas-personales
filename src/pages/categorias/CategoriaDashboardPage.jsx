@@ -11,14 +11,13 @@ export default function CategoriaDashboardPage() {
         const todas = getCategorias();
         setTotal(todas.length);
 
-        const detalladas = todas.filter(c => c.descripcion && c.descripcion.length > 20).length;
-        const breves = todas.filter(c => c.descripcion && c.descripcion.length <= 20).length;
+        const worker = new Worker('/categoriaWorker.js');
+        worker.postMessage({ data: todas });
 
-        const pieData = [
-            { name: 'Bien documentadas (>20 chars)', value: detalladas },
-            { name: 'Breves (<=20 chars)', value: breves }
-        ];
-        setDataCategorias(pieData);
+        worker.onmessage = (e) => {
+            setDataCategorias(e.data);
+        };
+        return () => worker.terminate();
     }, []);
 
     return (
