@@ -1,6 +1,7 @@
 import TaskItem from "./TaskItem";
 
 export default function TaskList({
+  categoriasById,
   metasById,
   tasks,
   onEdit,
@@ -20,6 +21,7 @@ export default function TaskList({
       {tasks.map((task) => (
         <TaskItem
           key={task.id}
+          categoryName={categoriasById[task.categoriaId]?.nombre}
           metaTitle={metasById[task.metaId]?.titulo}
           onChangeStatus={onChangeStatus}
           onDelete={onDelete}

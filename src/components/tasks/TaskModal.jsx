@@ -1,6 +1,7 @@
 import TaskForm from "./TaskForm";
 
 export default function TaskModal({
+  categorias,
   isOpen,
   metas,
   onClose,
@@ -27,6 +28,7 @@ export default function TaskModal({
 
         <TaskForm
           key={taskToEdit?.id || "new-task"}
+          categorias={categorias}
           metas={metas}
           onCancelEdit={onClose}
           onSubmit={onSubmit}

@@ -19,6 +19,7 @@ const statusStyles = {
 };
 
 export default function TaskItem({
+  categoryName,
   metaTitle,
   task,
   onEdit,
@@ -48,6 +49,7 @@ export default function TaskItem({
             <span>Vence: {task.fechaVencimiento}</span>
             <span>Prioridad: {priorityLabels[task.prioridad]}</span>
             <span>Meta: {metaTitle || "Sin meta asociada"}</span>
+            <span>Categoría: {categoryName || "Sin categoría asociada"}</span>
           </div>
         </div>
 

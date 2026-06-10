@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TASK_PRIORITIES, TASK_STATUS } from "../../hooks/useTasks";
+import { Button } from "@heroui/react";
 
 const initialFormState = {
   titulo: "",
@@ -8,6 +9,7 @@ const initialFormState = {
   estado: TASK_STATUS.pending,
   prioridad: TASK_PRIORITIES.medium,
   metaId: "",
+  categoriaId: "",
 };
 
 function getInitialFormState(taskToEdit) {
@@ -22,10 +24,26 @@ function getInitialFormState(taskToEdit) {
     estado: taskToEdit.estado,
     prioridad: taskToEdit.prioridad,
     metaId: taskToEdit.metaId || "",
+    categoriaId: taskToEdit.categoriaId || "",
   };
 }
 
-export default function TaskForm({ metas = [], taskToEdit, onSubmit, onCancelEdit }) {
+function getLocalDateString() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+export default function TaskForm({
+  categorias = [],
+  metas = [],
+  taskToEdit,
+  onSubmit,
+  onCancelEdit,
+}) {
   const [formData, setFormData] = useState(() =>
     getInitialFormState(taskToEdit)
   );
@@ -38,7 +56,7 @@ export default function TaskForm({ metas = [], taskToEdit, onSubmit, onCancelEdi
 
   const validateForm = () => {
     const nextErrors = {};
-    const today = new Date().toISOString().slice(0, 10);
+    const today = getLocalDateString();
 
     if (!formData.titulo.trim()) {
       nextErrors.titulo = "El titulo es obligatorio.";
@@ -88,7 +106,7 @@ export default function TaskForm({ metas = [], taskToEdit, onSubmit, onCancelEdi
           {taskToEdit ? "Editar tarea" : "Nueva tarea"}
         </h2>
         <p className="text-sm text-default-500">
-          Registra titulo, descripcion, fecha, estado, prioridad y meta relacionada.
+          Registra titulo, descripcion, fecha, estado, prioridad, meta y categoría.
         </p>
       </div>
 
@@ -168,6 +186,23 @@ export default function TaskForm({ metas = [], taskToEdit, onSubmit, onCancelEdi
             ))}
           </select>
         </label>
+
+        <label className="flex flex-col gap-2 text-sm font-semibold text-foreground md:col-span-2">
+          Categoría relacionada
+          <select
+            className="rounded-lg border border-divider bg-background px-4 py-3 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            name="categoriaId"
+            onChange={handleChange}
+            value={formData.categoriaId}
+          >
+            <option value="">Sin categoría asociada</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>
+                {categoria.nombre}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <label className="mt-4 flex flex-col gap-2 text-sm font-semibold text-foreground">
@@ -189,12 +224,13 @@ export default function TaskForm({ metas = [], taskToEdit, onSubmit, onCancelEdi
       </label>
 
       <div className="mt-5 flex flex-wrap gap-3">
-        <button
-          className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+        <Button
+          color="primary"
+          className="px-5 py-3 font-semibold shadow-sm"
           type="submit"
         >
           {taskToEdit ? "Guardar cambios" : "Agregar tarea"}
-        </button>
+        </Button>
 
         {taskToEdit && (
           <button
