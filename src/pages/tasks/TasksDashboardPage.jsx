@@ -32,6 +32,7 @@ export default function TasksDashboardPage() {
     (task) => task.estado === TASK_STATUS.pending
   ).length;
   const tasksWithGoal = tasks.filter((task) => task.metaId).length;
+  const tasksWithCategory = tasks.filter((task) => task.categoriaId).length;
 
   const statusData = [
     { name: "Completadas", value: completedTasks },
@@ -65,7 +66,7 @@ export default function TasksDashboardPage() {
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         <MetricCard
           label="Total de tareas"
           subRecords={totalTasks}
@@ -95,6 +96,12 @@ export default function TasksDashboardPage() {
           subRecords={tasksWithGoal}
           totalRecords={totalTasks}
           color="#A78BFA"
+        />
+        <MetricCard
+          label="Asociadas a categorías"
+          subRecords={tasksWithCategory}
+          totalRecords={totalTasks}
+          color="#F97316"
         />
       </div>
 

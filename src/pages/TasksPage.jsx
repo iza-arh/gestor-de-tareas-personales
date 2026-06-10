@@ -4,6 +4,7 @@ import TaskList from "../components/tasks/TaskList";
 import TaskModal from "../components/tasks/TaskModal";
 import { useTasks } from "../hooks/useTasks";
 import { getMetas } from "../services/metasServices";
+import { getCategorias } from "../services/categoriasServices";
 import { Button } from "@heroui/react";
 
 export default function TasksPage() {
@@ -22,6 +23,7 @@ export default function TasksPage() {
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const metas = useMemo(() => getMetas(), []);
+  const categorias = useMemo(() => getCategorias(), []);
   const metasById = useMemo(
     () =>
       metas.reduce((accumulator, meta) => {
@@ -29,6 +31,14 @@ export default function TasksPage() {
         return accumulator;
       }, {}),
     [metas]
+  );
+  const categoriasById = useMemo(
+    () =>
+      categorias.reduce((accumulator, categoria) => {
+        accumulator[categoria.id] = categoria;
+        return accumulator;
+      }, {}),
+    [categorias]
   );
 
   const openCreateModal = () => {
@@ -65,10 +75,6 @@ export default function TasksPage() {
             Universidad de El Salvador
           </p>
           <h1 className="mt-1 text-4xl font-bold text-foreground">Tareas</h1>
-          <p className="mt-3 max-w-3xl text-lg text-default-600">
-            Administra tareas conectadas con metas para dar seguimiento al avance
-            del proyecto.
-          </p>
         </div>
 
         <Button
@@ -83,6 +89,7 @@ export default function TasksPage() {
 
       <TaskModal
         isOpen={isTaskModalOpen}
+        categorias={categorias}
         metas={metas}
         onClose={closeTaskModal}
         onSubmit={handleSubmit}
@@ -104,6 +111,7 @@ export default function TasksPage() {
           />
 
           <TaskList
+            categoriasById={categoriasById}
             metasById={metasById}
             onChangeStatus={updateTaskStatus}
             onDelete={deleteTask}

@@ -55,6 +55,7 @@ export function useTasks() {
       estado: taskData.estado,
       prioridad: taskData.prioridad,
       metaId: taskData.metaId || "",
+      categoriaId: taskData.categoriaId || "",
       creadaEn: now,
       actualizadaEn: now,
     };
