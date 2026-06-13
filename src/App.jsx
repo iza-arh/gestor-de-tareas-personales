@@ -12,6 +12,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CategoriaDashboardPage from './pages/categorias/CategoriaDashboardPage';
 import TasksDashboardPage from './pages/tasks/TasksDashboardPage';
 import { Toast } from '@heroui/react';
+import MapaPage from './pages/MapaPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/metricas-de-metas" element={<MetasDashboardPage />} />
             <Route path="/editar-categoria/:id" element={<EditarCategoriaPage />} />
             <Route path="/metricas-de-categorias" element={<CategoriaDashboardPage />} />
+            <Route path="/mapa" element={<MapaPage />} />
           </Routes>
         </main>
       </div>

@@ -166,6 +166,17 @@ export default function Sidebar() {
                                     </Dropdown.Popover>
                                 </Dropdown>
                             </li>
+
+                            <li className="w-full">
+                                <Button
+                                    aria-label="Mapa"
+                                    variant="ghost"
+                                    className="w-full rounded-xl px-4 py-3 text-base font-semibold"
+                                    onClick={() => navigateAndClose('/mapa')}
+                                >
+                                    Mapa
+                                </Button>
+                            </li>
                         </ul>
                     </nav>
                 </div>
