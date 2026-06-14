@@ -10,6 +10,8 @@ const initialFormState = {
   prioridad: TASK_PRIORITIES.medium,
   metaId: "",
   categoriaId: "",
+  ubicacion: "",
+  esAfuera: false,
 };
 
 function getInitialFormState(taskToEdit) {
@@ -25,6 +27,8 @@ function getInitialFormState(taskToEdit) {
     prioridad: taskToEdit.prioridad,
     metaId: taskToEdit.metaId || "",
     categoriaId: taskToEdit.categoriaId || "",
+    ubicacion: taskToEdit.ubicacion || "",
+    esAfuera: !!taskToEdit.esAfuera,
   };
 }
 
@@ -52,6 +56,36 @@ export default function TaskForm({
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((currentData) => ({ ...currentData, [name]: value }));
+  };
+
+  const detectarUbicacion = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocalizacion no soportada por el navegador");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        const apiKey1 = "d145a0603afa048d0d626baeaa07e908d145a0603afa048d0d626baeaa07e908";
+        const apiKey2 = "d145a0603afa048d0d626baeaa07e908";
+        try {
+          let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey1}`);
+          if (!res.ok) {
+            res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey2}`);
+          }
+          if (!res.ok) throw new Error();
+          const data = await res.json();
+          if (data.name) {
+            setFormData((current) => ({ ...current, ubicacion: data.name }));
+          }
+        } catch {
+          alert("Error al obtener la ciudad");
+        }
+      },
+      () => {
+        alert("Permiso denegado o error de ubicacion");
+      }
+    );
   };
 
   const validateForm = () => {
@@ -188,20 +222,51 @@ export default function TaskForm({
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-semibold text-foreground md:col-span-2">
-          Categoría relacionada
+          Categoria relacionada
           <select
             className="rounded-lg border border-divider bg-background px-4 py-3 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             name="categoriaId"
             onChange={handleChange}
             value={formData.categoriaId}
           >
-            <option value="">Sin categoría asociada</option>
+            <option value="">Sin categoria asociada</option>
             {categorias.map((categoria) => (
               <option key={categoria.id} value={categoria.id}>
                 {categoria.nombre}
               </option>
             ))}
           </select>
+        </label>
+
+        <label className="flex flex-col gap-2 text-sm font-semibold text-foreground md:col-span-2">
+          Ubicacion
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded-lg border border-divider bg-background px-4 py-3 outline-none transition placeholder:text-default-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+              name="ubicacion"
+              onChange={handleChange}
+              placeholder="Ej. San Salvador"
+              value={formData.ubicacion}
+            />
+            <button
+              type="button"
+              onClick={detectarUbicacion}
+              className="rounded-lg bg-default-100 hover:bg-default-200 border border-divider px-4 py-3 text-sm font-semibold text-foreground transition"
+            >
+              Detectar
+            </button>
+          </div>
+        </label>
+
+        <label className="flex flex-row items-center gap-2 text-sm font-semibold text-foreground md:col-span-2 cursor-pointer mt-2">
+          <input
+            type="checkbox"
+            name="esAfuera"
+            onChange={(e) => setFormData(current => ({ ...current, esAfuera: e.target.checked }))}
+            checked={formData.esAfuera}
+            className="w-4 h-4 rounded border-divider bg-background focus:ring-primary text-primary"
+          />
+          La tarea es afuera
         </label>
       </div>
 
