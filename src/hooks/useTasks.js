@@ -56,6 +56,8 @@ export function useTasks() {
       prioridad: taskData.prioridad,
       metaId: taskData.metaId || "",
       categoriaId: taskData.categoriaId || "",
+      ubicacion: taskData.ubicacion ? taskData.ubicacion.trim() : "",
+      esAfuera: !!taskData.esAfuera,
       creadaEn: now,
       actualizadaEn: now,
     };
@@ -72,6 +74,8 @@ export function useTasks() {
               ...taskData,
               titulo: taskData.titulo.trim(),
               descripcion: taskData.descripcion.trim(),
+              ubicacion: taskData.ubicacion ? taskData.ubicacion.trim() : "",
+              esAfuera: !!taskData.esAfuera,
               actualizadaEn: new Date().toISOString(),
             }
           : task
